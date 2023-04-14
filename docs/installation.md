@@ -17,7 +17,7 @@ The code is developed using Python 3.8 with PyTorch 1.8.0. The code is developed
    $ conda activate MIPSeg
    ```
 
-   **(2) Install apex 0.1(needs CUDA)**
+   **(2) Install apex 0.1(needs CUDA) in furnace**
 
    ```shell
    $ cd ./furnace/apex
