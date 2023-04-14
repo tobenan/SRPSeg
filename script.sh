@@ -2,7 +2,7 @@
 nvidia-smi
 export CUDA_VISIBLE_DEVICES="4,5 "
 export volna="/media/ders/GDH/TorchSemiSeg/"
-export NGPUS=2 ### bash 中不要有空格
+export NGPUS=2 ### 
 export OUTPUT_PATH="/media/ders/GDH/TorchSemiSeg/exp.voc/voc8.res50v3+.CPS+CutMix/output/mymix_23.2.22_only_pad255_beta0.4"
 # 2 1 0.3
 export snapshot_dir=$OUTPUT_PATH
