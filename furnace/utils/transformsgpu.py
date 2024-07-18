@@ -978,12 +978,7 @@ def my_mix_logit(data, softmax_pred, ps_label_1, ps_label_2, beta=0.3, hard_id=N
         start = i #记录起始位置
         for k in range(4): # ricap need 4 img 由于每个裁剪点的位置是随机生成的 因此 图像与label要同步处理 / k代表 裁剪图像的存储顺序
                 
-            '''if i==hard_id : # 如果是后续循环且要切的图像是hard图像 就直接赋值hard_img并跳过后续 如果是 5 6 7 0 则 不好赋值
-                cropped_images[k] = hard_img
-                l1_label[k] = hard_label1
-                l2_label[k] = hard_label2
-                continue
-            '''
+
             img = data[start]   # 取起始图片
             pred = argmax_pred[start] # int64 [512,512]
             label1 = ps_label_1[start]
@@ -992,23 +987,23 @@ def my_mix_logit(data, softmax_pred, ps_label_1, ps_label_2, beta=0.3, hard_id=N
             w=w_[k] # 310
             h=h_[k] # 0
             # pad
-            pad_w_list = [int(w/2),w-int(w/2)] # 避免 w为奇数 除不尽的情况 如果为1 或0怎么处理 为0 后续则不取该图像
+            pad_w_list = [int(w/2),w-int(w/2)] 
             pad_h_list = [int(h/2),h-int(h/2)]
             padding = nn.ConstantPad2d((pad_w_list[0],pad_w_list[1],pad_h_list[0],pad_h_list[1]), 0) # pad with 0
             pad_img = padding(img,) # pad img
             padding_label = nn.ConstantPad2d((pad_w_list[0],pad_w_list[1],pad_h_list[0],pad_h_list[1]), 255) 
-            ## 不需要pad with 255，这里黑边就是背景 pred是经过通道argmax出来的 label1 label2是预测出来的，
+          
             pad_label1 = padding_label(label1) # pad label
             pad_label2 = padding_label(label2)
             # class guide
             #classes = torch.unique(pred) # 众数
-            #classes = classes[classes!= 255] # 250 for city 淡黄色轮廓   按通道算argmax 那就不可能有255
+            #classes = classes[classes!= 255] # 250 for city 淡黄色轮廓  
             #if classes.shape[0]>2:
             #    continue
             mask = pred==0 # false 为前景 true为背景
             #fg_pixle_num= torch.sum(~mask) # 
             #fg_ratio = fg_pixle_num / ( unsup_imgs.shape[2]*unsup_imgs.shape[3]) # 0.99
-            #if ratio>0.7 or ratio<0.1 如果没有前景 如果只是小块区域 怎么处理
+            #if ratio>0.7 or ratio<0.1 
             #    continue
             #imask = pred==0
             #if not imask.equal(mask): pass
